@@ -1,0 +1,274 @@
+Your task
+implement the following three functions, (The parameter names may be different if you wish.)
+
+
+
+
+
+PART I - describe the major obstacles I have encountered during coding.
+
+This project is doubtedly one of the hardest projects in CS31, and it does require more time and effort. My first obstacle was to understand the goal of this project and how I can implement the idea into the three functions. I figured that since the third function calls the first two functions, the first two only serve as a tool for validation and identification while the third function actually calculates and compares. With that in mind,  I quickly jotted down the requirements of the three functions on paper and laid out exactly what I should do in each part of the functions. This method actually allowed me to finish pseudocode in a relatively short amount of time. 
+Once I got the pseudocode, everything just became smooth. Now all I have to do is to translates from English into c++ code. The first function was a swing ride. All I had to do was to list of the different cases and either eliminate them by break; or returning false or keep them by returning true.
+Now, once I got the first two codes done, I didn't have a clue what to do for the final function. The challenging part about the third function is that you not only have to examine different cases on a case-by-case basis but also determine what to do about calculation once you got the data. How I approached the third function is that I pulled out my pseudocode, but this time I added a footnote that has a testing variable on it, and I listed out several cases where I would play the role of the program and determine what my behavior towards those input will be like. Once I figured that out, I wrote down the code using do while loop and if statements. It is not until this project that I realized that what takes the most time in the making of a coding project is not the actual coding part but the debugging part. I couldn't figure out where I got several assert() statements wrong, so I had to guess the part of the program that I messed up at and diagnose the problem using cerr statements and debugger. The most challenging part was figuring out the part where the car bumps into a wall or go out of bounds after a certain point on its path. It should return 3 and change nsteps into the maximum number of steps it should take, which can be calculated using maxSteps(), but it kept returning 2. I had to consult Many resources to diagnose that the problem is with the incremental of the index within the third program. The rest of the program went smooth.
+
+
+
+
+
+
+
+PART II - DESCRIPTION OF DESIGN OF THE THREE FUNCTIONS
+//Pseudocode starts here
+UNIVERSAL VARIABLES
+Declare Direction vectors (upper and lower case);
+
+----------
+bool hasCorrectForm(string plan)
+This function returns true if its parameter **is a plan (**i.e., it meets the definition above).
+
+//define direction vectors behaviour
+	//get current position (row x , col y)
+	//GET User inputs 
+	//next position given the current direction vector would be:
+		//N: (x - 1, y)
+		//W: (x, y - 1)
+		//E : (x, y + 1)
+		//S : (x + 1, y)
+	//initialize the L, R turn values
+		//get the upcoming direction vector given the current turn value;
+
+
+//devise an algorithm that split the plan up into portions
+	//declare an index number to scroll along the string
+	//should I initialize a number for the current portion? (For future action purposes)
+	//CREATE A TEMP for verification purposes
+	//three cases
+		
+	//do while loop (traced by index number)
+		//0
+			//yes
+		//1-9
+			//is the next index L/l/R/r? (++index)
+				//true
+					//yes
+					//proceed to check the following index (do nothing, do the loop again)
+				//a number between 1-9
+					//continue on to the next one (index++)
+						//letter
+							//yes (2 # + turn letter)
+						//number (0 - 9)
+							//invalid. End function
+						//others
+							//invalid. End function
+				//0
+					//yes, 2 portions
+				//others
+					//invalid. End function (return false)
+		//L/R/l/r
+			//yes
+		//others
+			//invalid. End Function (return false)
+
+
+/*
+//check if each portion fit these three cases
+	//case 1: 0 (distractor)
+		// do nothing
+	//case 2: aL/aR (move plus change direction)
+		//move first
+		(This is where consider checking if running into a wall or out of bounds)
+		//change direction vector
+	//case 3: L/R (ONLY change direction)
+		//change direction vector
+*/
+
+
+Function 2: Determine the maximum number of steps can take until it hits a wall or the boundary
+int determineSafeDistance(int r, int c, char dir, int maxSteps)
+
+	initialize a variable current step = 0
+	
+	//first case: when the starting point is out of bounds or a wall (using isWall() || compare the x and y coordinates with the minimum and maximum row and column number)
+		//function quits
+		// if the point is on a wall
+		//if the direction is not valid
+		//if MaxStep is negative
+	
+	//second case: the starting point is in bounds
+		//using direction vector: 
+		//next position given the current direction vector would be:
+
+		//quote four different functions for these four direction vectors
+		//N: (x - 1, y) MK,                      
+		/*
+		
+		
+		//W: (x, y - 1)
+		//E : (x, y + 1)
+		//S : (x + 1, y)
+		
+		//loop every step the car takes
+			//if the coordinate == wall coordinate
+				//maximum is current step - 1
+				//return the value
+			//if the coordinate >= row or col number
+				//maximum is current step - 1
+				//return the value
+			//if the coordinate != coordinate
+				//make one more step in the direction (current step++)
+				
+		
+		return maxSteps;
+		
+		
+			
+Function 3: int obeyPlan(int sr, int sc, int er, int ec, char dir, string plan, int& nsteps)
+
+Returns the number of steps the car travels until it becomes invalid / finished
+
+(Sr, sc) : starting point
+
+(Er, ec): ending point
+
+Dir: initial direction vector
+
+plan: a VALID plan
+
+nsteps: the thing that it returns
+
+If the plan is actually valid (without hitting any walls or getting off bounds or invalid), the function returns
+	// 0 if the plan directs the car to the CORRECT LOCATION
+	// 1 if the plan directs the car to another valid location
+
+If the plan is not valid:
+	// case 1: the starting point or ending point are not empty grid || direction is false || plan is inexecutable
+		//return 2
+		//nsteps = nsteps
+	//case 2: everything makes sense, but the car would bump into a wall or go off grid
+		//return 3
+		//return maxSteps
+[
+Here are two strings that are plans: 5rL00L0R09R7L and 42l (the last character of the latter is a lower case L). Here are four strings that are not plans: L2, 1Rx2L, 144R, 1R+2L. N144, and w2+n3.
+	   1234
+	 1 ...*
+	 2 .*..
+	 3 .*..
+
+turn letter: R or L, upper or lower case,
+direction letter: N, E, W, or S, upper or lower case.
+plan portion as zero, one, or two digits, followed by a turn letter. ( L and 2R and 13L). A plan is a sequence of zero or more plan portions (NOT separated or surrounded by spaces, commas, or anything else) - LL2R2r2L1R
+Given a start position and a start direction an obeyable plan without starting on or trying to move to a cell containing a wall. (units first, direction second) A turn letter preceded by no digits means to not move the car any steps, but simply rotate it as instructed.
+Starting from (2,2) there are no obeyable plans, since (2,2) itself is a wall. The string R0FL is not an obeyable plan because it is not even a plan: it doesn't fit the definition of a plan.
+               
+//change direction function (take l or r as input)
+	//when dir = north
+		//left = 
+		//right =
+	//when dir = south
+		//left =
+		//right=
+	//when dir = west
+		//left = 
+		//right =
+	//when dir = east
+		//left = 
+		//right
+
+
+//plan tracing function
+	//get direction vector;
+	//walk along that direction
+	//if number,
+		//add the number to the coordinate according to the rules
+	//if string,
+		//output the next direction vector and change the direction vector (requires a new function)
+
+
+
+
+
+PART III - DATA USED FOR TESTING
+	Test data:
+	Section I - a grid with single digit row and column number
+    	setSize(3, 4); 
+    	setWall(1, 4);
+    	setWall(2, 2);
+   	setWall(3, 2);
+    	draw(3, 1, 3, 4);
+
+	//part I - test out the first function
+  	assert(hasCorrectForm("2R1r")); //compatibility of upper and lower case turn letters
+    	assert(!hasCorrectForm("1Lx")); //can detect other letters other than turn letters?
+    	assert(!hasCorrectForm("000000000000000")); //can recognize 0 as a valid portion but 0 without turn letters an invalid portion?
+    	assert(!hasCorrectForm("9RRRRRR3100")); //can recognize trailing 0s?
+    	assert(!hasCorrectForm("LR999")); //can recognize that there is a bug when the turn number is more than a two digit number;
+    	assert(!hasCorrectForm("LR99")); //can recognize that the lack of turn letter after a one or two digit unit
+    	assert(hasCorrectForm("LR88R")); //can recognize a plan with two-digit steps
+    	assert(!hasCorrectForm("r10L9*")); //can disqualify a plan with letters other than l or r or numbers
+    	assert(hasCorrectForm("LRLLRLRLLRRLLLRLLRLllrLlrlR")); //can validate a plan with only turn letters
+    	assert(!hasCorrectForm("* (^ &*%(*&(&(")); // can invalidate a plan with misc letters
+
+	//part II - test out the second function
+	//what I did here is to plot a map of the maze and manually put in coordinates and calculate the maximum number of steps it can take from the point of beginning.
+    	assert((determineSafeDistance(-1, 1, 'e', 2) == -1)); // invalidate the function if the starting coordinate is invalid.
+    	assert((determineSafeDistance(1, 1, 'e', -8797) == -1)); //negative max steps
+   	assert((determineSafeDistance(1, 1, 'O', 2) == -1)); //invalid direction vector letter
+    	assert((determineSafeDistance(1, 1, 'e', 2) == 2)); //correct everything but lower case direction vector.
+    	assert((determineSafeDistance(1, 1, 'S', 5) == 2)); //correct everything with an upper case direction vector
+    	assert((determineSafeDistance(3, 4, 'n', 5) == 1)); //test out the north direction
+    	assert((determineSafeDistance(3, 4, 'w', 3) == 1)); //test out a same coordinate with a different starting direction vector.
+    
+  
+   	 //Part III - test out the obeyPlan function
+    	int len;
+   	len = -999;  // so we can detect whether obeyPlan sets len
+    	assert(obeyPlan(3, 1, 3, 4, 'S', "LL2R2r2L1R", len) == 0 && len == 7); //test out a valid plan with a matching starting and ending coordinates. Compare length
+    	len = -999;  // so we can detect whether obeyPlan sets len
+    	assert(obeyPlan(3, 1, 3, 4, 'N', "1Lx", len) == 2 && len == -999); //test an invalid plan
+    	len = -999;  // so we can detect whether obeyPlan sets len
+    	assert(obeyPlan(2, 4, 1, 1, 'w', "3R1L", len) == 3 && len == 1); //test out a valid plan that leads to either out of bounds or on a wall.
+    	cerr << "All tests succeeded" << endl;
+    	len = -999;
+    	assert(obeyPlan(3, 1, 3, 4, 'N', "2RLR2R2L1L", len) == 0 || len == 7); //either the turn letter is wrong or the last digit
+   	len = -999;
+   	assert((obeyPlan(1, 1, 3, 4, 'E', "2R2L1L", len) == 0 && len == 5)); //
+    	len = -999; //test this wall bumper
+    	assert(obeyPlan(3, 1, 3, 4, 'n', "2R01r2L", len) == 3 && len == 3);
+    	cerr << "The max distance is " << len << endl;
+    	len = -999;
+    	cerr << obeyPlan(1, 1, 3, 4, 'N', "R4R2L", len) << endl;
+    	cerr << len << endl;
+    	int len;
+    	len = -999;  // so we can detect whether obeyPlan sets len
+    	assert(obeyPlan(3, 1, 3, 4, 'S', "LL2R2r2L1R", len) == 0 && len == 7);
+    	len = -999;
+    	assert(obeyPlan(3, 1, 3, 4, 'N', "1Lx", len) == 2 && len == -999);
+    	len = -999;  // so we can detect whether obeyPlan sets len
+    	assert(obeyPlan(2, 4, 1, 1, 'w', "3R1L", len) == 3 && len == 1);
+
+	Section II - a grid with two-digit (specifically made to accommodate a part in the third function.)
+       	setSize(12, 13);
+    	setWall(1, 8);
+   	setWall(2, 2);
+   	setWall(3, 5);
+    	setWall(4, 4);
+    	setWall(5, 3);
+    	setWall(5, 4);
+    	setWall(6, 7);
+    	setWall(6, 8);
+    	setWall(7, 4);
+    	setWall(8, 4);
+    	setWall(9, 4);
+    	setWall(10, 4);
+    	draw(6, 1, 9, 6);
+    	cout << determineSafeDistance(5, 13, 'w', 13) << endl;
+    
+    	int len;
+    	len = -999;
+    	assert(obeyPlan(2, 13, 3, 4, 'S', "R10L2R2L2l1l3r2L", len) == 0 && len == 22); //test out plan with double-digit moves
+    	len = -999;
+    	cout << obeyPlan(2, 13, 3, 4, 'S', "R10L2R2L2l1l3r2L", len) << endl; //test out a valid plan within a two-digit matrix
+    	cout << len << endl;
+    	cout << obeyPlan(2, 13, 3, 4, 'S', "R11R3R", len) << endl;
+    	cout << len << endl;
+
